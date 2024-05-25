@@ -1,0 +1,33 @@
+## API endpoint used to create the Application resource
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+## Set the name of the resource and namespace where it should be deployed.
+## In this case the Application resource name is set to  `Team_95_Web_App `
+## and it is deployed in the `argocd` namespace
+metadata:
+  name: Team_95_Web_App 
+  namespace: argocd
+spec:
+  ## Set the target cluster and namespace to deploy the application.
+  ## For example, the app-ui application is deployed in the `default` namespace
+  ## within the local cluster or `https://kubernetes.default.svc`
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  ## Set the project the application belongs to.
+  ## In this case the `default` project is used.
+  project: default
+  ## the repository can be targeted or `HEAD`, or a target branch.
+  source:
+    path: kubernetes
+    repoURL: https://github.com/Team-95-AWS-Modernize-Web-App-on-Cloud/Kubernetes-Deployment.git
+    targetRevision: HEAD
+  # # Set the sync policy. 
+  ## If left empty, the sync policy will default to manual.
+  syncPolicy: {}
+    # syncOptions:
+    # - CreateNamespace=true
+
+    # automated:
+    #   selfHeal: true
+    #   prune: true
