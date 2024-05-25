@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: event-booking-depl
+  name: event-booking-depl
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: event-booking-depl
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: event-booking-depl
+    spec:
+      containers:
+      - image: minhquanvus/app-ui
+        imagePullPolicy: IfNotPresent
+        name: event-booking
+        ports:
+            - containerPort: 8082
+              protocol: TCP
+        resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+status: {}
